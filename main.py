@@ -30,25 +30,19 @@ class Menu:
         self.dishes = []
 
     def print_menu(self):
-        print("--------------------------------------------")
-        print("\n\nDINING HALL:")
-        print(self.dining_hall)
-        print(self.meal)
+        print("\nDINING HALL:" + self.dining_hall + " - "+ self.meal)
         for dish in self.dishes:
-            print("CATEGORY: " + dish.kitchen)
+            #print("CATEGORY: " + dish.kitchen)
             dish.print_item()
 
-        print("--------------------------------------------\n\n")
 
     def return_menu_string(self):
-        ret_str = "--------------------------------------------"
         ret_str += "\n\nDINING HALL:"
         ret_str += self.dining_hall
         ret_str += "\n" + self.meal
         for dish in self.dishes:
             ret_str += "\nCATEGORY: " + dish.kitchen + "\n" + dish.ret_item()
 
-        ret_str += "--------------------------------------------\n\n"
         return ret_str
 
     def add_dish(self, dish):
@@ -65,46 +59,47 @@ class Menu:
                 sort_keys=True, indent=4)
 
 class Dish:
-    def __init__(self, name, allergies, kitchen):
+    def __init__(self, name, dietary_tags, kitchen):
         self.dish_name = name
-        self.allergies = allergies
+        self.dietary_tags = dietary_tags
         self.kitchen = kitchen
 
     def print_item(self):
-        print("\nNAME: ")
-        print(self.dish_name)
-        print("ALLERGIES:")
-        print("CATEGORY:")
-        print(self.kitchen)
-
-        for allergy in self.allergies:
-            print(allergy)
+        print("\n" + self.dish_name + ", " + self.kitchen + ", dietary tags: ", end = " ")
+        for tag in self.dietary_tags:
+            print(tag,end=" ")
 
     def ret_item(self):
-        ret_str = "\nNAME: " + self.dish_name + "\nALLERGIES: \n" + self.kitchen
+        ret_str = "\nNAME: " + self.dish_name + "\ndietary tags: \n" + self.kitchen
 
-        for allergy in self.allergies:
-            ret_str += "\n" + allergy
+        for tag in self.dietary_tags:
+            ret_str += "\n" + tag
 
         return ret_str
 
-class Menu_Scraper:
-    def __init__(self, base_url = None, main_url = "https://hospitality.usc.edu/residential-dining-menus/"):
+class MenuScraper:
+    def __init__(self,  main_url = "https://hospitality.usc.edu/residential-dining-menus/"):
         self.main_url = main_url
         self.menus = {}
         self.loaded = False
 
-    def load(self):
+    def clear(self):
+        self.menus = {}
+        self.loaded = False
+
+    def load_menus(self):
         self.loaded = True
         self.data = requests.get(self.this_url)
         self.soup = BeautifulSoup(self.data.text, 'html.parser')
 
     def print_all_menus(self):
+        print("\n")
         for k,v in self.menus.items():
-            print("#######################\nMeal:  " )
-            print(k)
+            print("\nMeal:  " + k + "  ", end=" ")
+
             for x in v:
                 x.print_menu()
+        print("\n")
 
     def return_all_menus(self):
         ret_str = ""
@@ -138,15 +133,14 @@ class Menu_Scraper:
         """
         import json
 
-        ret_str = "{\n"
+        ret_str = ""
 
         for key, value in self.menus.items():
             for v in value:
                 ret_str += "\n" + v.toJSON() + ","
-        ret_str += "}"
+
 
         return ret_str
-
 
 
     def date_url(self, year, month, day):
@@ -162,17 +156,20 @@ class Menu_Scraper:
 
 
     def parse_menus(self, year = None, month = None, day = None):
+        """
+        TODO: Parses string in YYYYMMDD format
+
+        """
 
         if year != None:
-            print("setting date")
             self.this_url = self.date_url(year, month, day)
-            print(self.this_url)
+            print("Grabbing data for date" + self.this_url)
 
 
         else:
             self.this_url = self.main_url
 
-        self.load()
+        self.load_menus()
 
         for meal in  self.soup.find_all('div',{'class':'hsp-accordian-container'}):
             meal_title = meal.find('span',{'class':'fw-accordion-title-inner'}).text
@@ -193,18 +190,40 @@ class Menu_Scraper:
                         for ul in menu_items[i].find_all('li'):
                             dish_name = ' '.join([x.strip() for x in ul if isinstance(x,NavigableString)])
 
-                            allergies = []
+                            dietary_tags = []
 
-                            for allergy in ul.span.find_all('span'):
-                                allergies.append(allergy.text)
+                            for tag in ul.span.find_all('span'):
+                                dietary_tags.append(tag.text)
 
-                            new_dish = Dish(dish_name, allergies, category)
+                            new_dish = Dish(dish_name, dietary_tags, category)
                             #dishes.append(new_dish)
                             dhm.add_dish(new_dish)
 
 
                     i = i + 1
 
-
                 self.menus[meal_name].append(dhm)
+
+import sys
+
+from flask import escape
+
+def scrape_json(request):
+
+    """HTTP Cloud Function.
+    Args:
+        request (flask.Request): The request object.
+    Returns:
+        the response text, or any set of values that can be turned into a
+        Response object using 'make_response'
+    """
+    from bs4 import BeautifulSoup, NavigableString
+
+    import requests
+    from flask import Response
+
+    menuscraper = MenuScraper()
+    menuscraper.parse_menus()
+    #return json.dumps(MenuScraper.return_menu_json(), indent=2)
+    return Response(menuscraper.return_menu_json(), mimetype="application/json")
 
