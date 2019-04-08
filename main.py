@@ -37,6 +37,7 @@ class Menu:
 
 
     def return_menu_string(self):
+        ret_str = ""
         ret_str += "\n\nDINING HALL:"
         ret_str += self.dining_hall
         ret_str += "\n" + self.meal
@@ -129,29 +130,56 @@ class MenuScraper:
 
     def return_menu_json(self):
         """
-        Returns json
+        Returns json array of menu objects 
         """
         import json
 
-        ret_str = ""
+        ret_str = "["
 
-        for key, value in self.menus.items():
-            for v in value:
-                ret_str += "\n" + v.toJSON() + ","
-
+        for value in self.menus.values():
+            #for v in value:
+            for i in range(len(value)):
+                ret_str += "\n" + value[i].toJSON() 
+                if i < len(value) - 1:
+                    ret_str += ","
+        ret_str += "]"
 
         return ret_str
 
 
-    def date_url(self, year, month, day):
+    def date_url_old(self, yr, mo, dy):
         """
+        Do not use
         Makes get request to parse menu on specific date
         """
         import datetime
         #"https://hospitality.usc.edu/residential-dining-menus/?menu_date=March+23%2C+2019"
+        year = int(yr)
+        month = int(mo)
+        day = int(dy)
+
         d = datetime.datetime(year, month, day)
         date = "?menu_date=" + d.strftime("%B") + "+" + d.strftime("%d") + "%2C+" + d.strftime("%Y")
         return self.main_url + date
+
+    def date_url(self, yr, mo, dy):
+        """
+        Makes get request to parse menu on specific date
+        example: "https://hospitality.usc.edu/residential-dining-menus/?menu_date=March+23%2C+2019"
+        """
+        import datetime
+        try:
+            if int(dy) < 10 and len(dy) > 1:
+                dy = dy[1:]
+            d = datetime.datetime(int(yr), int(mo), int(dy))
+            date = "?menu_date=" + d.strftime("%B") + "+" + dy + "%2C+" + d.strftime("%Y")
+        except:
+            print("Error parsing date")
+            date = ""
+        return self.main_url + date
+        
+
+       
 
 
 
@@ -227,3 +255,45 @@ def scrape_json(request):
     #return json.dumps(MenuScraper.return_menu_json(), indent=2)
     return Response(menuscraper.return_menu_json(), mimetype="application/json")
 
+
+def get_date(request):
+
+    from bs4 import BeautifulSoup, NavigableString
+
+    import requests
+    from flask import Response
+    
+    menuscraper = MenuScraper()
+    menuscraper.parse_menus()
+    
+
+    return Response(menuscraper.return_menu_json(), mimetype="application/json")
+
+def scrape_date(request):
+    """
+    HTTP Cloud Function to scrape menu for given date
+    """
+    from flask import Response
+    request_json = request.get_json(silent=True)
+    request_args = request.args
+
+    if request_json and 'date' in request_json:
+        date = request_json['date']
+    elif request_args and 'date' in request_args:
+        date = request_args['date']
+    else:
+        date = None
+    
+    ms = MenuScraper()
+
+    if date != None and len(date) >= 0 and len(date) <= 8:
+        import datetime
+        try:
+            yr = date[:4]
+            mo = date[4:6]
+            dy = date[6:8]
+            date = datetime.datetime(int(yr), int(mo), int (dy))
+            ms.parse_menus(year=yr, month=mo, day=dy)
+        except ValueError:
+            ms.parse_menus()
+    return Response(ms.return_menu_json(), mimetype="application/json")
