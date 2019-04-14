@@ -30,7 +30,10 @@ public class DiningHallImporter implements Runnable {
 	}
 
 	private JSONArray getFromScraper() {
+
 		JSONArray json = null;
+
+		System.out.println("calling scraper");	// added
 
 		StringBuilder sb = new StringBuilder(scraperURI);
 		try {
@@ -53,10 +56,14 @@ public class DiningHallImporter implements Runnable {
 			String jsonString = sb.toString();
 			json = (JSONArray)p.parse(jsonString);
 		} catch (MalformedURLException me) {
+			System.out.println("MUE : " + me.getMessage());
 			me.printStackTrace();
 		} catch (IOException ie) {
+			System.out.println("IOE : " + ie.getMessage());
 			ie.printStackTrace();
 		} catch (ParseException pe) {
+
+			System.out.println("PE : " + pe.getMessage());
 			pe.printStackTrace();
 		}
 		return json;
@@ -64,6 +71,8 @@ public class DiningHallImporter implements Runnable {
 
 	private void importToDatabase() {
 		MySQL msql = new MySQL();
+
+		System.out.println("calling import to database"); // added
 
 		for (int i = 0; i < this.res.size(); i++) {
 			JSONObject json = (JSONObject)this.res.get(i);

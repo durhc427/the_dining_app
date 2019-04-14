@@ -13,6 +13,7 @@ public class API {
 	public static final String[] HALLS =  {"Everybody's Kitchen", "USC Village Dining Hall", "Parkside Restaurant & Grill"};
 	public static final String[] halls = {"everybody", "village", "parkside"};
 
+
 	@RequestMapping(value="/all", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public JSONObject getAll() {
 
@@ -33,6 +34,7 @@ public class API {
 
 		return json;
 	}
+
 
 
         @RequestMapping(value="/dininghall", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
@@ -80,7 +82,7 @@ public class API {
         return json;
     }
 
-    @RequestMapping(value="/login", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value="/login", method=RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
     public JSONObject loginUser(String name, String password) {
 	    JSONObject json = new JSONObject();
 	    // code to check if in database
@@ -89,7 +91,7 @@ public class API {
 	    return json;
     }
 
-    @RequestMapping(value="/register", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value="/register", method=RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
     public JSONObject registerUser(String name, String password) {
 	    JSONObject json = new JSONObject();
 	    // code to check if in database
@@ -99,7 +101,7 @@ public class API {
     }
 
 
-    @RequestMapping(value="/logintestinvalid", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value="/logintestinvalid", method=RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
     public JSONObject loginUserInvalid(String name, String password) {
 	    JSONObject json = new JSONObject();
 	    // code to check if in database
@@ -108,11 +110,40 @@ public class API {
 	    return json;
     }
 
-    @RequestMapping(value="/registertestinvalid", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value="/registertestinvalid", method=RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
     public JSONObject registerUserInvalid(String name, String password) {
 	    JSONObject json = new JSONObject();
 	    // code to check if in database
 	    json.put("registrationStatus", false);
+
+	    return json;
+    }
+
+    @RequestMapping(value="/adddish", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+    public JSONObject addDish(String username, String dish){
+
+	    JSONObject json = new JSONObject();
+	    // make database call
+	    // User.addDish(username, dish);
+	    json.put("addStatus", true);
+	    return json;
+    }
+
+
+    @RequestMapping(value="/getfavs", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+    public JSONObject getFavs(String username){
+
+	    JSONObject json = new JSONObject();
+	    // make database call
+	    // User.getData(username, dish);
+
+	    JSONArray array = new JSONArray();
+
+	    array.add("Sesame Soy Green Tea Soba Noodles");
+            array.add("Bean Sprouts" );
+	    array.add("Basil Pesto");
+
+	    json.put("favs", array);
 
 	    return json;
     }

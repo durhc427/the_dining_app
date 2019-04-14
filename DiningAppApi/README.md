@@ -50,3 +50,54 @@ Parameters:
 	`day`: query day
 Example: `https://the-dining-app-api.appspot.com/alldhdate?year=2019&month=03&day=13`
 
+
+## User login
+Mapping: `/login`
+Request Method: `POST`
+Return Type: `JSONObject`
+Desciption: whether login was successful or not
+Parameters:
+	`name`: username
+	`password`: password
+Example: `https://the-dining-app-api.appspot.com/login?name=JMiller&password=tomcat`
+
+
+## Register User
+Mapping: `/register`
+Request Method: `POST`
+Return Type: `JSONObject`
+Desciption: whether login was successful or not
+Parameters:
+	`name`: username
+	`password`: password
+Example: `https://the-dining-app-api.appspot.com/register?name=JMiller&password=tomcat`
+
+
+## Add Dish
+Mapping: `/adddish`
+Request Method: `GET`
+Return Type: `JSONObject`
+Desciption: whether adding dish was successful or not
+`{ "addStatus" : true }`
+Parameters:
+	`username`: user name
+	`dish`: dish name
+Example: `https://the-dining-app-api.appspot.com/adddish?username=JMiller&dish=Sausages`
+
+## Get Favorites
+Mapping: `/getfavs`
+Request Method: `GET`
+Return Type: `JSONObject`
+Desciption: returns JSONObject with JSONArray containing stock tickers
+Parameters:
+	`username`: user's query method
+Example: `https://the-dining-app-api.appspot.com/getfavs?username=JMiller`
+```json
+{
+    "favs": [
+        "Sesame Soy Green Tea Soba Noodles",
+        "Bean Sprouts",
+        "Basil Pesto"
+    ]
+}
+```
