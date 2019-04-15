@@ -80,7 +80,7 @@ Return Type: `JSONObject`
 Desciption: whether adding dish was successful or not
 `{ "addStatus" : true }`
 Parameters:
-	`username`: user name
+	`name`: user name
 	`dish`: dish name
 Example: `https://the-dining-app-api.appspot.com/adddish?username=JMiller&dish=Sausages`
 
@@ -88,16 +88,32 @@ Example: `https://the-dining-app-api.appspot.com/adddish?username=JMiller&dish=S
 Mapping: `/getfavs`
 Request Method: `GET`
 Return Type: `JSONObject`
-Desciption: returns JSONObject with JSONArray containing stock tickers
+Desciption: returns JSONObject with JSONArray containing user favorite dishes
 Parameters:
-	`username`: user's query method
+	`name`: user's query method
 Example: `https://the-dining-app-api.appspot.com/getfavs?username=JMiller`
 ```json
 {
-    "favs": [
+    "dishes": [
         "Sesame Soy Green Tea Soba Noodles",
         "Bean Sprouts",
         "Basil Pesto"
+    ]
+}
+```
+
+## Get Allergens
+Mapping: `/getallergens`
+Request Method: `GET`
+Return Type: `JSONObject`
+Desciption: returns JSONObject with JSONArray containing user allergens
+Parameters:
+	`name`: user's query method
+Example: `https://the-dining-app-api.appspot.com/getallergens?username=JMiller`
+```json
+{
+    "alergens": [
+        "Peanuts"
     ]
 }
 ```

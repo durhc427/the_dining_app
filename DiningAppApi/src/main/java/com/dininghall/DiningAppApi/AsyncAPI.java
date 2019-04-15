@@ -20,6 +20,26 @@ public class AsyncAPI {
 
 	@Autowired
 	private ImportService service;
+
+	@RequestMapping(value="/updateToday0416", method=RequestMethod.GET)
+	public void updateToday() throws InterruptedException, ExecutionException {
+		System.out.println("testAsync start");
+		LocalDate date = LocalDate.of(2019,04,16);
+		//LocalDate date = LocalDate.now();
+		CompletableFuture<Boolean>  menus = service.importDate(date);
+		CompletableFuture.allOf(menus).join();
+	}
+
+
+	@RequestMapping(value="importdate",method=RequestMethod.GET )
+	public void importDate(int year, int month, int day)  throws InterruptedException, ExecutionException {
+		System.out.println("importing date to system");
+		LocalDate date = LocalDate.of(year, month, day);
+		CompletableFuture<Boolean> menus = service.importDate(date);
+		CompletableFuture.allOf(menus).join();
+	}
+
+
 /*
 	@RequestMapping(value="/testAsync", method=RequestMethod.GET)
 	public void testAsync() throws InterruptedException, ExecutionException {

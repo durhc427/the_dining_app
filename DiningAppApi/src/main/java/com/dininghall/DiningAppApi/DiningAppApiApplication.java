@@ -30,4 +30,5 @@ public class DiningAppApiApplication {
 		executor.initialize();
 		return executor;
 	}
+
 }

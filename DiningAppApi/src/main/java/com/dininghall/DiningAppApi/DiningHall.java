@@ -146,6 +146,7 @@ public class DiningHall {
 		} catch (SQLException sqle) {
 			sqle.printStackTrace();
 		}
+		mysql.closeConnection();
 		return mealtimes;
 	}
 }
