@@ -1,7 +1,8 @@
-package com.dininghall.DiningAppApi;
-
+package endpoints;
+import dininghall.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
 import java.util.concurrent.ExecutionException;
 
 import java.time.LocalDate;
@@ -21,22 +22,31 @@ public class AsyncAPI {
 	@Autowired
 	private ImportService service;
 
-	@RequestMapping(value="/updateToday0416", method=RequestMethod.GET)
-	public void updateToday() throws InterruptedException, ExecutionException {
-		System.out.println("testAsync start");
-		LocalDate date = LocalDate.of(2019,04,16);
-		//LocalDate date = LocalDate.now();
-		CompletableFuture<Boolean>  menus = service.importDate(date);
-		CompletableFuture.allOf(menus).join();
-	}
-
-
 	@RequestMapping(value="importdate",method=RequestMethod.GET )
 	public void importDate(int year, int month, int day)  throws InterruptedException, ExecutionException {
 		System.out.println("importing date to system");
 		LocalDate date = LocalDate.of(year, month, day);
 		CompletableFuture<Boolean> menus = service.importDate(date);
 		CompletableFuture.allOf(menus).join();
+	}
+
+
+    @RequestMapping(value="/testpulldate", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	public JSONObject pullData(int year, int month, int day)  throws InterruptedException, ExecutionException 	{
+		LocalDate d = LocalDate.of(year,month, day);
+		String dininghall = "USC Village Dining Hall";
+		DiningHall dh = new DiningHall(dininghall, d);
+		if( dh.noData() ) {
+
+			System.out.println("importing date to system");
+			LocalDate date = LocalDate.of(year, month, day);
+			CompletableFuture<Boolean> menus = service.importDate(date);
+			CompletableFuture.allOf(menus).join();
+			dh = null;
+			dh = new DiningHall(dininghall, d);
+		}
+
+		return dh.toSimplifiedJSON();
 	}
 
 
@@ -54,29 +64,6 @@ public class AsyncAPI {
 		System.out.println("DiningHall Results After");
 		DiningHall dh2 = new DiningHall("village", date);
 		System.out.println(dh2.toJSON().toString());
-	}
-
-
-
-	@RequestMapping(value="/all", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
-	public JSONObject getAll() {
-
-
-		LocalDate d = LocalDate.now();
-		JSONObject json = new JSONObject();
-		JSONArray dhdishes = new JSONArray();
-
-		for(String s : HALLS){
-			Collection<JSONObject> dishes = new DiningHall(s,d).toJSONCollection();
-			for(JSONObject dish : dishes){
-				dhdishes.add(dish);
-			}
-		}
-
-		json.put("dishes", dhdishes);
-
-
-		return json;
 	}
 
 	*/

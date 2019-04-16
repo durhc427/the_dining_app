@@ -1,4 +1,4 @@
-package com.dininghall.DiningAppApi;
+package dininghall;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -15,16 +15,10 @@ class MealTime {
 		this.kitchens = kits;
 	}
 
-	/**
-	 * @return the name
-	 */
 	public String getName() {
 		return name;
 	}
 
-	/**
-	 * @param name the name to set
-	 */
 	public void setName(String name) {
 		this.name = name;
 	}

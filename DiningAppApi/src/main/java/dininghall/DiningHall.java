@@ -1,5 +1,5 @@
-package com.dininghall.DiningAppApi;
-
+package dininghall;
+import com.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -52,6 +52,10 @@ public class DiningHall {
 
 	}
 
+	public boolean noData() {
+		return this.mtimes.size() < 2;
+	}
+
 	public JSONObject toSimplifiedJSON(){
 		JSONObject json = new JSONObject();
 		JSONArray dishes = new JSONArray();
@@ -74,7 +78,7 @@ public class DiningHall {
 			}
 		}
 		json.put("dishes", dishes);
-		//json.put("hall", this.name);
+
 		return json;
 	}
 
@@ -91,7 +95,6 @@ public class DiningHall {
 
 	private Collection<MealTime> getMealTimes(String name, LocalDate date) {
 		MySQL mysql = new MySQL();
-
 		ResultSet rs = mysql.getDishes(name, date);
 
 		Collection<MealTime> mealtimes = new HashSet<MealTime>();
@@ -128,6 +131,9 @@ public class DiningHall {
 						d.addAllergy(rs.getString("aName"));
 					}
 				} else {
+					if (d != null) {
+						k.addDish(d);
+					}
 					if (k != null) {
 						m.addKitchen(k);
 					}
@@ -142,6 +148,15 @@ public class DiningHall {
 					d = new Dish(dName);
 					d.addAllergy(rs.getString("aName"));
 				}
+			}
+			if (d != null) {
+				k.addDish(d);
+			}
+			if (k != null) {
+				m.addKitchen(k);
+			}
+			if (m != null) {
+				mealtimes.add(m);
 			}
 		} catch (SQLException sqle) {
 			sqle.printStackTrace();

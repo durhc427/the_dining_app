@@ -1,4 +1,4 @@
-package com.dininghall.DiningAppApi;
+package endpoints;
 
 import java.util.concurrent.Executor;
 
@@ -14,9 +14,9 @@ public class AsyncConfiguration
     @Bean(name = "asyncExecutor")
     public Executor asyncExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(3);
-        executor.setMaxPoolSize(3);
-        executor.setQueueCapacity(100);
+        executor.setCorePoolSize(5);
+        executor.setMaxPoolSize(5);
+        executor.setQueueCapacity(500);
         executor.setThreadNamePrefix("AsynchThread-");
         executor.initialize();
         return executor;

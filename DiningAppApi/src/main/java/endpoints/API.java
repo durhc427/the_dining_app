@@ -1,4 +1,6 @@
-package com.dininghall.DiningAppApi;
+package endpoints;
+import dininghall.*;
+import com.*;
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -38,7 +40,6 @@ public class API {
 	}
 
 
-
         @RequestMapping(value="/dininghall", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
         public JSONObject getDiningHall(String dininghall){
 
@@ -57,6 +58,19 @@ public class API {
         DiningHall dh = new DiningHall(dininghall, d);
         return dh.toSimplifiedJSON();
     }
+
+/*
+    @RequestMapping(value="/testpulldate", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+    public JSONObject getDiningHallDate(int year, int month, int day ){
+        LocalDate d = LocalDate.of(year,month, day);
+        String dininghall = getHall("village");
+        DiningHall dh = new DiningHall(dininghall, d);
+	if( dh.noData() ) {
+
+	}
+        return dh.toSimplifiedJSON();
+    }
+*/
 
 
     @RequestMapping(value="/alldhdate", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
@@ -82,7 +96,7 @@ public class API {
 		JSONObject json = new JSONObject();
 		User user = null;
 		MySQL db = new MySQL();
-		if(name != null && name.trim().length() > 0 && 
+		if(name != null && name.trim().length() > 0 &&
 		password != null && password.trim().length() > 0
 		&& db.getUser(name, password) > 0) {
 			user = new User(name, password);
@@ -99,7 +113,7 @@ public class API {
 		JSONObject json = new JSONObject();
 		User user = null;
 		MySQL db = new MySQL();
-		if(name != null && name.trim().length() > 0 && 
+		if(name != null && name.trim().length() > 0 &&
 		password != null && password.trim().length() > 0
 		&& db.getUser(name, password) < 0){
 			user = new User(name, password);
@@ -146,12 +160,12 @@ public class API {
 		} else {
 			json.put("addStatus", false);
 		}
-		
+
 	    // make database call
 	    // User.addDish(username, dish);
 	    return json;
 	}
-	
+
 
     @RequestMapping(value="/adddish", method=RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
     public JSONObject addDish(String name, String password, String dish){
@@ -168,12 +182,12 @@ public class API {
 		}  else {
 			json.put("addStatus", false);
 		}
-		
+
 	    // make database call
 	    // User.addDish(username, dish);
 	    return json;
 	}
-	
+
 
     @RequestMapping(value="/adduserallergen", method=RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
     public JSONObject addAllergen(String name, String password, String allergen){
@@ -190,12 +204,12 @@ public class API {
 		}  else {
 			json.put("addStatus", false);
 		}
-		
+
 	    // make database call
 	    // User.addDish(username, dish);
 	    return json;
 	}
-	
+
 
     @RequestMapping(value="/addallergen", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
     public JSONObject addAllergen(String name, String allergen){
@@ -214,7 +228,7 @@ public class API {
 		}  else {
 			json.put("addStatus", false);
 		}
-		
+
 	    // make database call
 	    // User.addDish(username, dish);
 	    return json;
@@ -230,7 +244,7 @@ public class API {
 		json.put("dishes", favorites);
 	    return json;
 	}
-	
+
 	@RequestMapping(value="/getallergenssafe", method=RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
 	public JSONObject getAllergens(String name, String password){
 	    JSONObject json = new JSONObject();
@@ -251,7 +265,7 @@ public class API {
 		json.put("dishes", favorites);
 	    return json;
 	}
-	
+
 	@RequestMapping(value="/getallergens", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public JSONObject getAllergens(String name){
 	    JSONObject json = new JSONObject();
@@ -262,6 +276,8 @@ public class API {
 		json.put("allergens", allergens);
 	    return json;
 	}
+
+
 
     private String getHall(String name){
         for(int i = 0; i < halls.length ; i++){

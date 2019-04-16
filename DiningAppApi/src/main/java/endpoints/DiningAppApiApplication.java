@@ -1,4 +1,4 @@
-package com.dininghall.DiningAppApi;
+package endpoints;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

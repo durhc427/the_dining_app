@@ -1,4 +1,4 @@
-package com.dininghall.DiningAppApi;
+package com;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
