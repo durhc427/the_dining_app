@@ -62,6 +62,22 @@ Parameters:
 Example: `https://the-dining-app-api.appspot.com/login?name=JMiller&password=tomcat`
 
 
+## Add Allergen
+Mapping: `/addallergen`
+Request Method: `GET`
+Return Type: `JSONObject`
+Desciption: returns JSONObject with JSONArray containing user allergens
+Parameters:
+	`name`: user's query method
+	`allergen`: allergen
+Example: `https://the-dining-app-api.appspot.com/getallergens?username=JMiller`
+```json
+{
+    "addStatus": [
+        "true"
+    ]
+}
+```
 ## Register User
 Mapping: `/register`
 Request Method: `POST`
@@ -74,7 +90,7 @@ Example: `https://the-dining-app-api.appspot.com/register?name=JMiller&password=
 
 
 ## Add Dish
-Mapping: `/adddish`
+Mapping: `/addfavorite`
 Request Method: `GET`
 Return Type: `JSONObject`
 Desciption: whether adding dish was successful or not
@@ -82,7 +98,7 @@ Desciption: whether adding dish was successful or not
 Parameters:
 	`name`: user name
 	`dish`: dish name
-Example: `https://the-dining-app-api.appspot.com/adddish?username=JMiller&dish=Sausages`
+Example: `https://the-dining-app-api.appspot.com/addfavorite?name=JMiller&dish=Sausages`
 
 ## Get Favorites
 Mapping: `/getfavs`
@@ -91,7 +107,7 @@ Return Type: `JSONObject`
 Desciption: returns JSONObject with JSONArray containing user favorite dishes
 Parameters:
 	`name`: user's query method
-Example: `https://the-dining-app-api.appspot.com/getfavs?username=JMiller`
+Example: `https://the-dining-app-api.appspot.com/getfavs?name=JMiller`
 ```json
 {
     "dishes": [
@@ -112,7 +128,7 @@ Parameters:
 Example: `https://the-dining-app-api.appspot.com/getallergens?username=JMiller`
 ```json
 {
-    "alergens": [
+    "allergens": [
         "Peanuts"
     ]
 }

@@ -18,9 +18,6 @@ class Dish {
 		this.allergies = a;
 	}
 
-	/**
-	 * @return the name
-	 */
 	public String getName() {
 		return name;
 	}

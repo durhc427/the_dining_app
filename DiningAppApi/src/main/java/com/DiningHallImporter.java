@@ -38,8 +38,14 @@ public class DiningHallImporter implements Runnable {
 		StringBuilder sb = new StringBuilder(scraperURI);
 		try {
 			sb.append(date.getYear());
-			sb.append(date.getMonthValue());
+			if(date.getMonthValue() < 10){
+				sb.append("0" + date.getMonthValue());
+			} else {
+				sb.append(date.getMonthValue());
+			}
+			// sb.append(date.getMonthValue());
 			sb.append(date.getDayOfMonth());
+			System.out.println("Sending url request " + sb.toString());
 			URL url = new URL(sb.toString());
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.connect();
@@ -92,6 +98,7 @@ public class DiningHallImporter implements Runnable {
 				}
 			}
 		}
+		System.out.println("Finished Importing Data");
 		msql.closeConnection();
 	}
 }

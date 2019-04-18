@@ -130,7 +130,7 @@ class MenuScraper:
 
     def return_menu_json(self):
         """
-        Returns json array of menu objects 
+        Returns json array of menu objects
         """
         import json
 
@@ -139,7 +139,7 @@ class MenuScraper:
         for value in self.menus.values():
             #for v in value:
             for i in range(len(value)):
-                ret_str += "\n" + value[i].toJSON() 
+                ret_str += "\n" + value[i].toJSON()
                 if i < len(value) - 1:
                     ret_str += ","
         ret_str += "]"
@@ -177,9 +177,9 @@ class MenuScraper:
             print("Error parsing date")
             date = ""
         return self.main_url + date
-        
 
-       
+
+
 
 
 
@@ -262,10 +262,10 @@ def get_date(request):
 
     import requests
     from flask import Response
-    
+
     menuscraper = MenuScraper()
     menuscraper.parse_menus()
-    
+
 
     return Response(menuscraper.return_menu_json(), mimetype="application/json")
 
@@ -283,7 +283,7 @@ def scrape_date(request):
         date = request_args['date']
     else:
         date = None
-    
+
     ms = MenuScraper()
 
     if date != None and len(date) >= 0 and len(date) <= 8:
