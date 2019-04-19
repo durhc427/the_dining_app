@@ -44,7 +44,12 @@ public class DiningHallImporter implements Runnable {
 				sb.append(date.getMonthValue());
 			}
 			// sb.append(date.getMonthValue());
-			sb.append(date.getDayOfMonth());
+			//sb.append(date.getDayOfMonth());
+			if(date.getDayOfMonth() < 10){
+				sb.append("0" + date.getDayOfMonth());
+			} else {
+				sb.append(date.getDayOfMonth());
+			}
 			System.out.println("Sending url request " + sb.toString());
 			URL url = new URL(sb.toString());
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();

@@ -120,7 +120,7 @@ public class AsyncAPI {
 		JSONObject json = new JSONObject();
 		JSONArray dhdishes = new JSONArray();
 
-		DiningHall dh = new DiningHall(HALLS[0], d);
+		DiningHall dh = new DiningHall(HALLS[1], d);
 		if (dh.noData()) {
 			CompletableFuture<Boolean> done = service.importDate(d);
 			CompletableFuture.allOf(done).join();
