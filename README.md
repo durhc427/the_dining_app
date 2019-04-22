@@ -1,6 +1,8 @@
 # The Dining App API
 
 base url: https://the-dining-app-api.appspot.com
+
+
 **Note:** no default page setup for url yet!
 
 **Note:** For convenience, we have made the following mappings:
