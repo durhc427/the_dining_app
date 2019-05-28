@@ -1,17 +1,19 @@
-package endpoints;
+package main.java.endpoints;
 
-import dininghall.*;
-import org.springframework.beans.factory.annotation.Autowired;
-
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.time.LocalDate;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import main.java.dininghall.DiningHall;
 
 @RestController
 public class AsyncAPI {

@@ -1,4 +1,4 @@
-package endpoints;
+package main.java.endpoints;
 
 import java.util.concurrent.Executor;
 

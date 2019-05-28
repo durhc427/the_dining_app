@@ -1,4 +1,4 @@
-package endpoints;
+package main.java.endpoints;
 
 import java.sql.Date;
 import java.text.ParseException;
@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
 
-import com.DiningHallImporter;
+import main.java.com.DiningHallImporter;
 
 
 public class Test {

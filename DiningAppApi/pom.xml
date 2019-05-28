@@ -13,10 +13,11 @@
 	<packaging>war</packaging>
 	<name>DiningAppApi</name>
 	<description>Dining Hall App for USC students</description>
-
+  <!--
 	<properties>
 		<java.version>1.8</java.version>
-	</properties>
+  </properties>
+  -->
 
 	<dependencies>
 		<dependency>
@@ -71,10 +72,6 @@
 
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
 			<!-- add appengine-maven-plugin-->
 			<plugin>
 				<groupId>com.google.cloud.tools</groupId>
@@ -85,9 +82,11 @@
 			<plugin>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-maven-plugin</artifactId>
+            <!--
             <configuration>
                 <mainClass>endpoints.DiningAppApiApplication</mainClass>
-            </configuration>
+                </configuration>
+        -->
 			</plugin>
 		</plugins>
 

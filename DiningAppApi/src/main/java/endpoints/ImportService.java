@@ -1,17 +1,17 @@
-package endpoints;
+package main.java.endpoints;
 
 import java.time.LocalDate;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
-import com.DiningHallImporter;
+import main.java.com.DiningHallImporter;
 
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import dininghall.DiningHall;
+import main.java.dininghall.DiningHall;
 
 @Service
 public class ImportService {

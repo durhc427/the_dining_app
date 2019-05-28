@@ -1,4 +1,4 @@
-package com;
+package main.java.com;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,7 +18,7 @@ import org.json.simple.parser.ParseException;
 public class DiningHallImporter implements Runnable {
 	private LocalDate date;
 	private JSONArray res = null;
-	private static final String scraperURI = "https://us-central1-menuscraper.cloudfunctions.net/scrape_date?date=";
+	private static final String scraperURI = "https://us-central1-thediningapp.cloudfunctions.net/scrape_date?date=";
 
 	public DiningHallImporter(LocalDate d) {
 		this.date = d;

@@ -1,4 +1,4 @@
-package dininghall;
+package main.java.dininghall;
 import com.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,9 +9,7 @@ import java.util.ArrayList;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-
-//import data.MySQL;
-
+import main.java.com.MySQL;
 public class DiningHall {
 	private Collection<MealTime> mtimes;
 	private LocalDate date;

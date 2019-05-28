@@ -1,4 +1,4 @@
-package dininghall;
+package main.java.dininghall;
 
 import java.util.Collection;
 import java.util.HashSet;

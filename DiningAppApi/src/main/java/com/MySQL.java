@@ -1,4 +1,4 @@
-package com;
+package main.java.com;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -14,12 +14,16 @@ public class MySQL {
 	private ResultSet rs = null;
 
 	public MySQL() {
+          System.out.println("Attempting CloudSQL connection");
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			// Local
 			//this.conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dining_app?user=root&password=root");
 			// GCP
-			this.conn = DriverManager.getConnection("jdbc:mysql://35.185.251.221:3306/Dining_App?useSSL=false&user=root&password=toor");
+			//this.conn = DriverManager.getConnection("jdbc:mysql://35.185.251.221:3306/Dining_App?useSSL=false&user=root&password=toor");
+			this.conn = DriverManager.getConnection("jdbc:mysql://35.236.98.197:3306/Dining_App?useSSL=false&user=root&password=root");
+
+      System.out.println("Connection made.");
 		} catch (SQLException sqle) {
 			System.out.println("sqle: " + sqle.getMessage());
 		} catch (ClassNotFoundException cnfe) {
