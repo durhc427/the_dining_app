@@ -1,6 +1,6 @@
 package main.java.endpoints;
 
-import com.*;
+import main.java.com.*;
 
 import java.time.LocalDate;
 import java.util.Collection;

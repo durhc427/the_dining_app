@@ -1,5 +1,5 @@
 package main.java.dininghall;
-import com.*;
+import main.java.com.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;

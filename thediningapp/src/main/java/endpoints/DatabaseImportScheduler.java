@@ -1,5 +1,5 @@
 package main.java.endpoints;
-import com.*;
+import main.java.com.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;

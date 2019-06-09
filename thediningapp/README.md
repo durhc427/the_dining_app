@@ -1,6 +1,9 @@
 # The Dining App API
 
-base url: https://the-dining-app-api.appspot.com
+base url: https://thediningapp.appspot.com
+
+# IMPORTANT:
+Ensure your default Java version is major version **1.8** and you have Java 8 installed.
 
 
 **Note:** no default page setup for url yet!
