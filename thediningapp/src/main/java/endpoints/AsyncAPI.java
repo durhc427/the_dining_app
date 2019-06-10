@@ -120,8 +120,11 @@ public class AsyncAPI {
         JSONObject json = new JSONObject();
         JSONArray dhdishes = new JSONArray();
 
-        DiningHall dh = new DiningHall(HALLS[1], d);
-        if (dh.noData()) {
+        DiningHall dh0 = new DiningHall(HALLS[0], d);
+        DiningHall dh1 = new DiningHall(HALLS[1], d);
+        DiningHall dh2 = new DiningHall(HALLS[2], d);
+        if (dh0.noData() && dh1.noData() && dh2.noData()) {
+            System.out.println("No data in database");
             CompletableFuture<Boolean> done = service.importDate(d);
             CompletableFuture.allOf(done).join();
 
@@ -132,7 +135,10 @@ public class AsyncAPI {
                 }
             }
         } else {
-            dh = null;
+            dh0 = null;
+            dh1 = null;
+            dh2 = null;
+
             for (String s : HALLS) {
                 Collection<JSONObject> dishes = new DiningHall(s, d).toJSONCollection();
                 for (JSONObject dish : dishes) {
