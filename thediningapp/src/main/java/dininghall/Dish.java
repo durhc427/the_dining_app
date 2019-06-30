@@ -12,15 +12,42 @@ class Dish {
 	private String [] allAllergens = {"Dairy", "Eggs", "Fish",
 	"Food Not Analyzed for Allergens", "Peanuts", "Pork", "Sesame",
 	"Shellfish", "Soy", "Tree Nuts", "Vegan", "Vegetarian", "Wheat / Gluten"};
+  private String kitchen;
+  private String diningHall;
+  private String mealTime;
 
 	Dish(String n, Collection<String> a) {
 		this.setName(n);
 		this.allergies = a;
 	}
 
+  Dish(String n, String dh, String k, String mt) {
+      this.setName(n);
+      this.allergies = new HashSet<String>();
+      this.diningHall = dh;
+      this.mealTime = mt;
+      this.kitchen = k;
+  }
+
 	public String getName() {
 		return name;
 	}
+
+  public Collection<String> getAllergies(){
+      return this.allergies;
+  }
+
+  public String getMealTime(){
+      return this.mealTime;
+  }
+
+  public String getKitchen() {
+      return this.kitchen;
+  }
+
+  public String getDiningHall() {
+      return this.diningHall;
+  }
 
 	/**
 	 * @param name the name to set
@@ -50,23 +77,17 @@ class Dish {
 	JSONObject toJSON() {
 		JSONObject json = new JSONObject();
 		json.put("name", this.getName());
-		JSONObject allergens = new JSONObject();
-		/*
-		JSONArray allergens = new JSONArray();
-		for (String allergen : this.allergies) {
-			allergens.add(allergen);
-		}
-		*/
+    json.put("hall", this.diningHall);
+    json.put("mealtime", this.mealTime);
+
 		for(String allergen : this.allAllergens){
-			if(allergen.contains(allergen)){
-				allergens.put(allergen, true);
+			if(this.allergies.contains(allergen)){
+				json.put(allergen, true);
 			} else {
-				allergens.put(allergen, false);
+				json.put(allergen, false);
 			}
 		}
 
-		json.put("allergies", allergens);
 		return json;
 	}
-
 }

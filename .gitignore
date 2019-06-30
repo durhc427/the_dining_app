@@ -1,2 +1,5 @@
 .gcloudignore
 __pycache__/
+*.un~
+.un~
+**.un~

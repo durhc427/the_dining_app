@@ -1,6 +1,6 @@
 # The Dining App API
 
-base url: https://the-dining-app-api.appspot.com
+base url: https://thediningapp.appspot.com
 
 
 **Note:** no default page setup for url yet!
@@ -16,7 +16,7 @@ base url: https://the-dining-app-api.appspot.com
 - Return Type: `JSONArray`
 - Desciption: Returns all dining hall data for the day
 - Parameters: none
-- Example: `https://the-dining-app-api.appspot.com/all`
+- Example: `https://thediningapp.appspot.com/all`
 
 
 ## One Dining Hall
@@ -25,7 +25,7 @@ base url: https://the-dining-app-api.appspot.com
 - Return Type: `JSONObject`
 - Desciption: Returns dining hall data for current day
 - Parameters: `dininghall` : dining hall name
-- Example: `https://the-dining-app-api.appspot.com/dininghall?dininghall=village`
+- Example: `https://thediningapp.appspot.com/dininghall?dininghall=village`
 
 
 
@@ -39,7 +39,7 @@ base url: https://the-dining-app-api.appspot.com
 	- `year`: query year
 	- `month`: query month
 	- `day`: query day
-- Example: `https://the-dining-app-api.appspot.com/pulldate?name=parkside&year=2019&month=03&day=13`
+- Example: `https://thediningapp.appspot.com/pulldate?name=parkside&year=2019&month=03&day=13`
 
 
 ## Pulling all dining halls on day
@@ -51,4 +51,4 @@ base url: https://the-dining-app-api.appspot.com
 	- `year`: query year
 	- `month`: query month
 	- `day`: query day
-- Example: `https://the-dining-app-api.appspot.com/alldhdate?year=2019&month=03&day=13`
+- Example: `https://thediningapp.appspot.com/alldhdate?year=2019&month=03&day=13`

@@ -14,13 +14,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import main.java.dininghall.DiningHall;
+import main.java.dininghall.MealTime;
 
 @RestController
 public class AsyncAPI {
 
     public static final String[] HALLS = { "Everybody's Kitchen", "USC Village Dining Hall",
-        "Parkside Restaurant & Grill" };
+            "Parkside Restaurant & Grill" };
     public static final String[] halls = { "everybody", "village", "parkside" };
+    
+    public static final String[] MEALS = { "Breakfast", "Brunch", "Lunch" , "Dinner"};
 
     @Autowired
     private ImportService service;
@@ -49,7 +52,7 @@ public class AsyncAPI {
 
     @RequestMapping(value = "/testpulldate", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public CompletableFuture<JSONObject> pullData(int year, int month, int day)
-        throws InterruptedException, ExecutionException {
+            throws InterruptedException, ExecutionException {
         LocalDate d = LocalDate.of(year, month, day);
         CompletableFuture<Object> obj = service.importSupplier(d);
         return (CompletableFuture<JSONObject>) obj.get();
@@ -92,7 +95,7 @@ public class AsyncAPI {
 
         LocalDate d = LocalDate.now();
         DiningHall dh = new DiningHall(getHall(dininghall), d);
-        if(dh.noData()) {
+        if (dh.noData()) {
             CompletableFuture<Boolean> menus = service.importDate(d);
             CompletableFuture.allOf(menus).join();
             dh = new DiningHall(dininghall, d);
@@ -105,7 +108,7 @@ public class AsyncAPI {
         LocalDate d = LocalDate.of(year, month, day);
         String dininghall = getHall(name);
         DiningHall dh = new DiningHall(dininghall, d);
-        if(dh.noData()) {
+        if (dh.noData()) {
             CompletableFuture<Boolean> menus = service.importDate(d);
             CompletableFuture.allOf(menus).join();
             dh = new DiningHall(dininghall, d);
@@ -113,7 +116,65 @@ public class AsyncAPI {
         return dh.toSimplifiedJSON();
     }
 
+    @RequestMapping(value = "/formatTest", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public JSONObject getFormatTest(int year, int month, int day) throws InterruptedException {
+        LocalDate d = LocalDate.of(year, month, day);
+        System.out.println("Pulling data for " + d.toString());
+        JSONObject json = new JSONObject();
+
+        MealTime m0 = new MealTime("Breakfast", d);
+        MealTime m1 = new MealTime("Brunch", d);
+        MealTime m2 = new MealTime("Lunch", d);
+        MealTime m3 = new MealTime("Dinner", d);
+
+        MealTime[] meals = { m0, m1, m2, m3 };
+
+        for (MealTime meal : meals) {
+            if (meal.hasData()) {
+                json.put(meal.getName(), meal.toJSONArray());
+            }
+        }
+        return json;
+
+    }
+
     @RequestMapping(value = "/alldhdate", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public JSONObject getAllMealTimesDate(int year, int month, int day) throws InterruptedException {
+        LocalDate d = LocalDate.of(year, month, day);
+        System.out.println("Pulling data for " + d.toString());
+        JSONObject json = new JSONObject();
+        JSONArray dhdishes = new JSONArray();
+
+        MealTime m0 = new MealTime("Breakfast", d);
+        MealTime m1 = new MealTime("Brunch", d);
+        MealTime m2 = new MealTime("Lunch", d);
+        MealTime m3 = new MealTime("Dinner", d);
+
+        if (!m0.hasData() && !m1.hasData() && !m2.hasData() && !m3.hasData()) {
+            System.out.println("No data in database");
+            CompletableFuture<Boolean> done = service.importDate(d);
+            CompletableFuture.allOf(done).join();
+            
+            for (String s : MEALS){
+                MealTime meal = new MealTime(s, d);
+                if(meal.hasData()){
+                    json.put(meal.getName(), meal.toJSONArray());
+                }
+            }
+        } else {
+            MealTime[] meals = { m0, m1, m2, m3 };
+
+            for (MealTime meal : meals) {
+                if (meal.hasData()) {
+                    json.put(meal.getName(), meal.toJSONArray());
+                }
+            }
+        }
+
+        return json;
+    }
+
+    @RequestMapping(value = "/alldhdatebydh", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public JSONObject getAllDiningHallsDate(int year, int month, int day) throws InterruptedException {
         LocalDate d = LocalDate.of(year, month, day);
         System.out.println("Pulling data for " + d.toString());

@@ -290,6 +290,47 @@ public class MySQL {
 		}
 	}
 
+  public ResultSet getMealTimeDishes(String mealtime, LocalDate date) {
+    ResultSet res = null;
+
+    Date sqlDate = java.sql.Date.valueOf(date);
+
+    try {
+/*
+SELECT d.name AS dName, m.name AS mName, 
+k.name AS kName,
+ dh.name AS dhName, dt, a.name AS aName FROM DiningHallDishes dhd, DiningHalls dh, Dishes d, Kitchens k, Meals m, DishAllergens da, Allergens
+ a WHERE dhd.dishID=d.dishID AND dhd.mealID=m.mealID and k.diningHallID=dh.diningHallID and dhd.kitchenID=k.kitchenID and da.dishID=d.dishID and da.allergenID=a.allergenID and dt="2019-07-01" and m.name="Dinner" and dh
+.name="Everybody's Kitchen"  ORDER BY m.mealID, k.name, d.name;
+*/
+			String sql = "SELECT d.name AS dName, m.name AS mName, "
+							+ "k.name AS kName, dh.name AS dhName, dt, a.name AS aName "
+							+ "FROM DiningHallDishes dhd, DiningHalls dh, "
+							+ "Dishes d, Kitchens k, Meals m, DishAllergens da, "
+							+ "Allergens a "
+    						+ "WHERE dhd.dishID=d.dishID "
+							+ "AND dhd.mealID=m.mealID "
+        					+ "AND k.diningHallID=dh.diningHallID "
+        					+ "AND dhd.kitchenID=k.kitchenID "
+        					+ "AND da.dishID=d.dishID "
+        					+ "AND da.allergenID=a.allergenID "
+        					+ "AND dt=? "
+                  			+ "AND m.name=? "
+							+ "ORDER BY m.mealID, k.name, d.name;";
+      this.ps = this.conn.prepareStatement(sql);
+      this.ps.setString(1, sqlDate.toString());
+      this.ps.setString(2, mealtime);
+
+      res = ps.executeQuery();
+
+    } catch (SQLException sqle) {
+        sqle.printStackTrace();
+    }
+    return res;
+
+  }
+
+
 	public ResultSet getDishes(String name, LocalDate date) {
 		ResultSet res = null;
 
